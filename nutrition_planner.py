@@ -45,7 +45,9 @@ def generate_diet_plan(weight, height_cm, goal, diet_type, activity_level, prote
     - Dish names & quantity
     - Macro breakdown per meal
     - Total macros at bottom
-    - Present as table, no notes, no warnings
+    - Present as table, no notes.
+    - dont show any warning or another texts rather than the table 
+    
     """
 
     model = genai.GenerativeModel("gemini-1.5-flash")
