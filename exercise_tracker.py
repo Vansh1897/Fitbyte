@@ -40,10 +40,10 @@ def exercise_tracker():
     else:
         st.write("No workouts added yet.")
 
-    # Create tabs for adding exercises and generating AI workouts
-    tab1, tab2 = st.tabs(["➕ Add Exercises", "🤖 AI-Generated Workout"])
+    # Create a simple layout instead of tabs for mobile compatibility
+    option = st.radio("Choose an option", ["➕ Add Exercises", "🤖 AI-Generated Workout"])
 
-    with tab1:
+    if option == "➕ Add Exercises":
         st.subheader("Manually Add Exercises")
         # Muscle groups for the exercise
         muscle_group = st.selectbox("Target Muscle Group", [
@@ -70,7 +70,7 @@ def exercise_tracker():
             st.session_state.workout_list.append(exercise_entry)
             st.success(f"✅ Added: {exercise_entry}")
 
-    with tab2:
+    elif option == "🤖 AI-Generated Workout":
         st.subheader("AI Workout Generator")
 
         # AI workout settings
@@ -86,4 +86,5 @@ def exercise_tracker():
 
 # Run app
 if __name__ == "__main__":
+    st.set_page_config(layout="wide")  # Make layout wide for better mobile compatibility
     exercise_tracker()
