@@ -1,8 +1,8 @@
 import streamlit as st
 import google.generativeai as genai
 
-# Configure Gemini API key
-genai.configure(api_key="AIzaSyCYSlWGpX0BzDiXH_S9tWC9lxXiivt5k88")  # Replace with your real API key
+# Configure Gemini API key (use your actual key here)
+genai.configure(api_key="AIzaSyCYSlWGpX0BzDiXH_S9tWC9lxXiivt5k88")
 
 # Initialize session state for workout list if not already initialized
 if "workout_list" not in st.session_state:
