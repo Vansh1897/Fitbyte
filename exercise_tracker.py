@@ -14,7 +14,7 @@ def calculate_macros(weight, goal, activity_level):
     elif goal == "Weight Gain":
         base_cal = 35
         protein = weight * 2.2
-    else:
+    else:  # Muscle Building
         base_cal = 30
         protein = weight * 2.5
 
@@ -46,13 +46,16 @@ def generate_diet_plan(weight, height_cm, goal, diet_type, activity_level, prote
     - Macro breakdown per meal
     - Total macros at bottom
     - Present as table, no notes.
-    - dont show any warning or another texts rather than the table 
-    
+    - Don't show any warning or other text other than the table.
     """
 
-    model = genai.GenerativeModel("gemini-1.5-flash")
-    response = model.generate_content(prompt)
-    return response.text
+    # Call to the model
+    try:
+        model = genai.GenerativeModel("gemini-1.5-flash")
+        response = model.generate_content(prompt)
+        return response.text
+    except Exception as e:
+        return f"Error generating diet plan: {e}"
 
 def nutrition_planner():
     st.header("📊 AI Nutrition Planner")
@@ -77,3 +80,7 @@ def nutrition_planner():
         st.write(f"- Fats: {fats}g")
         st.markdown("---")
         st.markdown(plan)
+
+# Run the Streamlit app
+if __name__ == "__main__":
+    nutrition_planner()
