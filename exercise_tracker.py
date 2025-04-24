@@ -1,91 +1,79 @@
 import streamlit as st
 import google.generativeai as genai
 
-# Configure Gemini API key
-genai.configure(api_key="AIzaSyCYSlWGpX0BzDiXH_S9tWC9lxXiivt5k88")  # Replace with your real API key
+# Configure API
+genai.configure(api_key="AIzaSyCYSlWGpX0BzDiXH_S9tWC9lxXiivt5k88")
 
-# Initialize session state for workout list
-if "workout_list" not in st.session_state:
-    st.session_state.workout_list = []
+def convert_height_to_cm(feet):
+    return round(feet * 30.48)
 
-# AI workout generator function
-def generate_ai_workout(goal, experience):
+def calculate_macros(weight, goal, activity_level):
+    if goal == "Weight Loss":
+        base_cal = 22
+        protein = weight * 2
+    elif goal == "Weight Gain":
+        base_cal = 35
+        protein = weight * 2.2
+    else:
+        base_cal = 30
+        protein = weight * 2.5
+
+    activity_multiplier = {
+        "No Exercise": 1.0,
+        "Little": 1.1,
+        "Moderate": 1.25,
+        "Heavy": 1.4
+    }
+
+    calories = weight * base_cal * activity_multiplier[activity_level]
+    fats = (0.25 * calories) / 9
+    carbs = (calories - (protein * 4) - (fats * 9)) / 4
+
+    return round(protein), round(carbs), round(fats), round(calories)
+
+def generate_diet_plan(weight, height_cm, goal, diet_type, activity_level, protein, carbs, fats, calories):
     prompt = f"""
-    Create a personalized gym workout routine for a person whose goal is {goal} and has {experience} experience level.
-    - Include push, pull, and legs movements based on days like monday, tuesday, wednesday, and so on excluding sunday.
-    - Suggest 6-8 exercises.
-    - Include sets and reps.
-    - Format it in clean bullet points or table.
-    - Do not give extra notes or alternatives.
-    - Display it in a tabular format.
-    - Do not show any warnings or any other text rather than the table.
+    Create a structured Indian {diet_type.lower()} diet plan for:
+    - Height: {height_cm} cm
+    - Weight: {weight} kg
+    - Goal: {goal}
+    - Activity Level: {activity_level}
+    - Calories: {calories}
+    - Protein: {protein}g, Carbs: {carbs}g, Fats: {fats}g
+
+    Include 5 meals (breakfast, lunch, dinner, and 2 snacks) with:
+    - Dish names & quantity
+    - Macro breakdown per meal
+    - Total macros at bottom
+    - Present as table, no notes.
+    - dont show any warning or another texts rather than the table 
+    
     """
+
     model = genai.GenerativeModel("gemini-1.5-flash")
     response = model.generate_content(prompt)
     return response.text
 
-# Main app
-def exercise_tracker():
-    st.header("🏋️ Exercise Planner")
+def nutrition_planner():
+    st.header("📊 AI Nutrition Planner")
+    weight = st.number_input("Enter your weight (kg)", min_value=30, max_value=200, value=70)
+    height_feet = st.number_input("Enter your height in feet", min_value=3.0, max_value=8.0, step=0.1, value=5.8)
+    height_cm = convert_height_to_cm(height_feet)
+    goal = st.selectbox("Goal", ["Weight Loss", "Weight Gain", "Muscle Building"])
+    diet_type = st.radio("Diet Preference", ["Vegetarian", "Non-Vegetarian", "Mixed"])
+    activity_level = st.selectbox("Activity Level", ["No Exercise", "Little", "Moderate", "Heavy"])
 
-    # Check if workout list is available
-    
-    # Create tabs for adding exercises and generating AI workouts
-    tab1, tab2 = st.tabs(["➕ Add Exercises", "🤖 AI-Generated Workout"])
+    if st.button("Generate Diet Plan"):
+        protein, carbs, fats, calories = calculate_macros(weight, goal, activity_level)
 
-    with tab1:
-        st.subheader("Manually Add Exercises")
-        # Muscle groups for the exercise
-        muscle_group = st.selectbox("Target Muscle Group", [
-            "Chest", "Back", "Legs", "Shoulders", "Biceps", "Triceps", "Abs"
-        ])
-        
-        exercises = {
-            "Chest": ["Flat Bench Press", "Incline Bench Press", "Decline Bench Press", "Dumbbell Fly", "Cable Crossover", "Chest Dips", "Push-Ups", "Incline Dumbbell Press"],
-            "Back": ["Deadlift", "Lat Pulldown", "Seated Cable Row", "Bent-over Barbell Row", "Pull-Ups", "T-Bar Row", "One-Arm Dumbbell Row", "Hyperextensions"],
-            "Legs": ["Barbell Squats", "Leg Press", "Walking Lunges", "Leg Extension (Machine)", "Hamstring Curl (Machine)", "Romanian Deadlifts", "Bulgarian Split Squats", "Standing Calf Raises"],
-            "Shoulders": ["Overhead Press", "Arnold Press", "Lateral Raise", "Front Raise", "Rear Delt Fly", "Upright Row", "Dumbbell Shoulder Press", "Face Pulls"],
-            "Biceps": ["Barbell Curl", "EZ Bar Curl", "Dumbbell Hammer Curl", "Concentration Curl", "Preacher Curl", "Cable Curl", "Incline Dumbbell Curl", "Spider Curl"],
-            "Triceps": ["Close-Grip Bench Press", "Skull Crushers", "Tricep Dips", "Tricep Pushdown (Cable)", "Overhead Dumbbell Extension", "Rope Pushdown", "Kickbacks", "Diamond Push-Ups"],
-            "Abs": ["Crunches", "Hanging Leg Raises", "Plank", "Russian Twists", "Bicycle Crunches", "Cable Crunches", "Mountain Climbers", "Toe Touches"]
-        }
+        with st.spinner("Generating your personalized diet plan..."):
+            plan = generate_diet_plan(weight, height_cm, goal, diet_type, activity_level, protein, carbs, fats, calories)
 
-        # Select exercise and input sets/reps
-        selected_exercise = st.selectbox("Choose Exercise", exercises[muscle_group])
-        sets = st.number_input("Sets", min_value=1, max_value=6, value=3)
-        reps = st.number_input("Reps", min_value=1, max_value=20, value=12)
-
-        if st.button("Add to Workout"):
-            exercise_entry = f"{selected_exercise} - {sets} sets x {reps} reps"
-            st.session_state.workout_list.append(exercise_entry)
-            st.success(f"✅ Added: {exercise_entry}")
-        
-        if st.session_state.workout_list:
-            st.write("### 📝 Current Workout Plan")
-            for i, entry in enumerate(st.session_state.workout_list, 1):
-                st.write(f"{i}. {entry}")
-            # Option to clear the workout list
-            if st.button("Clear Workout"):
-                st.session_state.workout_list.clear()
-                st.success("🗑️ Cleared workout list.")
-        else:
-            st.write("No workouts added yet.")
-
-
-    with tab2:
-        st.subheader("AI Workout Generator")
-
-        # AI workout settings
-        goal = st.selectbox("Fitness Goal", ["Weight Loss", "Muscle Gain", "Endurance"])
-        experience = st.radio("Experience Level", ["Beginner", "Intermediate", "Advanced"])
-
-        # Generate AI workout on button click
-        if st.button("Generate AI Workout"):
-            with st.spinner("Generating workout plan..."):
-                plan = generate_ai_workout(goal, experience)
-            st.markdown("### 💡 Your AI-Generated Workout Plan")
-            st.markdown(plan)
-
-# Run app
-if __name__ == "__main__":
-    exercise_tracker()
+        st.success("✅ Personalized Diet Plan")
+        st.write("🔬 Estimated Nutritional Needs:")
+        st.write(f"- Calories: {calories} kcal")
+        st.write(f"- Protein: {protein}g")
+        st.write(f"- Carbs: {carbs}g")
+        st.write(f"- Fats: {fats}g")
+        st.markdown("---")
+        st.markdown(plan)
