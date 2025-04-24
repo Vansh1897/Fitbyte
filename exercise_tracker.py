@@ -4,7 +4,7 @@ import google.generativeai as genai
 # Configure Gemini API key
 genai.configure(api_key="AIzaSyCYSlWGpX0BzDiXH_S9tWC9lxXiivt5k88")  # Replace with your real API key
 
-# Initialize session state for workout list
+# Initialize session state for workout list if not already initialized
 if "workout_list" not in st.session_state:
     st.session_state.workout_list = []
 
@@ -24,12 +24,10 @@ def generate_ai_workout(goal, experience):
     response = model.generate_content(prompt)
     return response.text
 
-# Main app
+# Main app function
 def exercise_tracker():
     st.header("🏋️ Exercise Planner")
 
-    # Check if workout list is available
-    
     # Create tabs for adding exercises and generating AI workouts
     tab1, tab2 = st.tabs(["➕ Add Exercises", "🤖 AI-Generated Workout"])
 
@@ -70,7 +68,6 @@ def exercise_tracker():
                 st.success("🗑️ Cleared workout list.")
         else:
             st.write("No workouts added yet.")
-
 
     with tab2:
         st.subheader("AI Workout Generator")
