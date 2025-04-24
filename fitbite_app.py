@@ -3,14 +3,30 @@ from meal_calorie_estimator import meal_calorie_estimator
 from exercise_tracker import exercise_tracker
 from nutrition_planner import nutrition_planner
 
+# Set the Streamlit page config
 st.set_page_config(page_title="FitBite", layout="centered")
 st.title("🥗 FitBite - Your Fitness Buddy")
 
-menu = st.sidebar.selectbox("Choose an option", ["🍽️ Meal Calorie Estimator", "🏋️ Exercise Tracker", "📊 Nutrition Planner"])
+# Define session state for the selected option to persist after button click
+if 'selected_option' not in st.session_state:
+    st.session_state.selected_option = "🍽️ Meal Calorie Estimator"
 
-if menu == "🍽️ Meal Calorie Estimator":
+# Sidebar navigation with buttons that persist the selection
+button1 = st.sidebar.button("🍽️ Meal Calorie Estimator")
+button2 = st.sidebar.button("🏋️ Exercise Tracker")
+button3 = st.sidebar.button("📊 Nutrition Planner")
+
+if button1:
+    st.session_state.selected_option = "🍽️ Meal Calorie Estimator"
+elif button2:
+    st.session_state.selected_option = "🏋️ Exercise Tracker"
+elif button3:
+    st.session_state.selected_option = "📊 Nutrition Planner"
+
+# Show the appropriate content based on the selected option
+if st.session_state.selected_option == "🍽️ Meal Calorie Estimator":
     meal_calorie_estimator()
-elif menu == "🏋️ Exercise Tracker":
+elif st.session_state.selected_option == "🏋️ Exercise Tracker":
     exercise_tracker()
-elif menu == "📊 Nutrition Planner":
+elif st.session_state.selected_option == "📊 Nutrition Planner":
     nutrition_planner()
