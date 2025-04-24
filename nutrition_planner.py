@@ -56,8 +56,8 @@ def generate_diet_plan(weight, height_cm, goal, diet_type, activity_level, prote
 
 def nutrition_planner():
     st.header("📊 AI Nutrition Planner")
-    weight = st.number_input("Enter your weight (kg)", min_value=30, max_value=200)
-    height_feet = st.number_input("Enter your height in feet", min_value=3.0, max_value=8.0, step=0.1)
+    weight = st.number_input("Enter your weight (kg)", min_value=30, max_value=200, value=70)
+    height_feet = st.number_input("Enter your height in feet", min_value=3.0, max_value=8.0, step=0.1, value=5.8)
     height_cm = convert_height_to_cm(height_feet)
     goal = st.selectbox("Goal", ["Weight Loss", "Weight Gain", "Muscle Building"])
     diet_type = st.radio("Diet Preference", ["Vegetarian", "Non-Vegetarian", "Mixed"])
