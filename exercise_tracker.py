@@ -3,8 +3,8 @@ import google.generativeai as genai
 
 # Configure Gemini API key (use your actual key here)
 genai.configure(api_key="AIzaSyCYSlWGpX0BzDiXH_S9tWC9lxXiivt5k88")
-workout_list=[]
-# Initialize session state for workout list if not already initialized
+
+workout_list = []
 if "workout_list" not in st.session_state:
     st.session_state.workout_list = []
 
