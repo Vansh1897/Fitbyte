@@ -1,6 +1,9 @@
 import streamlit as st
 import google.generativeai as genai
 
+# MUST be the first Streamlit command
+st.set_page_config(page_title="Exercise Planner", layout="centered")
+
 # Configure Gemini API key
 genai.configure(api_key="AIzaSyCYSlWGpX0BzDiXH_S9tWC9lxXiivt5k88")  # Replace with your real API key
 
@@ -23,7 +26,6 @@ def generate_ai_workout(goal, experience):
 
 # Main app function
 def exercise_tracker():
-    st.set_page_config(page_title="Exercise Planner", layout="centered")
     st.header("🏋️ Exercise Planner")
 
     # Tabs: Manual and AI Workout
@@ -31,7 +33,7 @@ def exercise_tracker():
 
     with tab1:
         st.subheader("Manually Add Exercises")
-        
+
         muscle_group = st.selectbox("Target Muscle Group", [
             "Chest", "Back", "Legs", "Shoulders", "Biceps", "Triceps", "Abs"
         ])
