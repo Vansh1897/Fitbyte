@@ -27,7 +27,7 @@ def generate_ai_workout(goal, experience):
 # Main app function
 def exercise_tracker():
     st.header("🏋️ Exercise Planner")
-
+    workout_list = []
     # Create tabs for adding exercises and generating AI workouts
     tab1, tab2 = st.tabs(["➕ Add Exercises", "🤖 AI-Generated Workout"])
 
