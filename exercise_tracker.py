@@ -1,10 +1,10 @@
 import streamlit as st
 import google.generativeai as genai
 
-# Configure Gemini API key (use your actual key here)
-genai.configure(api_key="AIzaSyCYSlWGpX0BzDiXH_S9tWC9lxXiivt5k88")
+# Configure Gemini API key
+genai.configure(api_key="AIzaSyCYSlWGpX0BzDiXH_S9tWC9lxXiivt5k88")  # Replace with your real API key
 
-workout_list = []
+# Initialize session state for workout list
 if "workout_list" not in st.session_state:
     st.session_state.workout_list = []
 
@@ -24,9 +24,11 @@ def generate_ai_workout(goal, experience):
     response = model.generate_content(prompt)
     return response.text
 
-# Main app function
+# Main app
 def exercise_tracker():
     st.header("🏋️ Exercise Planner")
+
+    # Check if workout list is available
     
     # Create tabs for adding exercises and generating AI workouts
     tab1, tab2 = st.tabs(["➕ Add Exercises", "🤖 AI-Generated Workout"])
@@ -37,7 +39,7 @@ def exercise_tracker():
         muscle_group = st.selectbox("Target Muscle Group", [
             "Chest", "Back", "Legs", "Shoulders", "Biceps", "Triceps", "Abs"
         ])
-        
+        workout_list=[]
         exercises = {
             "Chest": ["Flat Bench Press", "Incline Bench Press", "Decline Bench Press", "Dumbbell Fly", "Cable Crossover", "Chest Dips", "Push-Ups", "Incline Dumbbell Press"],
             "Back": ["Deadlift", "Lat Pulldown", "Seated Cable Row", "Bent-over Barbell Row", "Pull-Ups", "T-Bar Row", "One-Arm Dumbbell Row", "Hyperextensions"],
@@ -68,6 +70,7 @@ def exercise_tracker():
                 st.success("🗑️ Cleared workout list.")
         else:
             st.write("No workouts added yet.")
+
 
     with tab2:
         st.subheader("AI Workout Generator")

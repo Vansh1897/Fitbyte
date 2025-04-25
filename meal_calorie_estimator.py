@@ -9,7 +9,7 @@ def estimate_nutrition_gemini(image):
     try:
         model = genai.GenerativeModel("gemini-1.5-flash")
         response = model.generate_content([
-            "Identify the food in this image and give an approximate estimate of calories, protein, carbohydrates, and fats. Also mention per serving quantity (e.g., 2 bhature and 100 gm chole). Be concise and structured.and give each detail on new line. Dont give any notes or other bullshits",
+            "Identify the food in this image and give an approximate estimate of calories, protein, carbohydrates, and fats. Also mention per serving quantity (e.g., 2 bhature and 100 gm chole). Be concise and structured.and give each detail on new line.",
             image
         ])
         return response.text
