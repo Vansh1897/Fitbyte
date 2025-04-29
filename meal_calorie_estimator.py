@@ -3,7 +3,7 @@ from PIL import Image
 import google.generativeai as genai
 
 # Configure Gemini API
-genai.configure(api_key="AIzaSyCYSlWGpX0BzDiXH_S9tWC9lxXiivt5k88")
+genai.configure(api_key=YourAPiKey)
 
 def estimate_nutrition_gemini(image):
     try:
