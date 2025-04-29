@@ -2,7 +2,7 @@ import streamlit as st
 import google.generativeai as genai
 
 # Configure API
-genai.configure(api_key="AIzaSyCYSlWGpX0BzDiXH_S9tWC9lxXiivt5k88")
+genai.configure(api_key=YourAPIKey)
 
 def convert_height_to_cm(feet):
     return round(feet * 30.48)
