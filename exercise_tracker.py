@@ -2,7 +2,7 @@ import streamlit as st
 import google.generativeai as genai
 
 # ✅ Configure Gemini API key
-genai.configure(api_key="AIzaSyCYSlWGpX0BzDiXH_S9tWC9lxXiivt5k88")  # Replace with your actual key
+genai.configure(api_key=Gemini_key)  # Replace with your actual key
 
 # AI workout generator function
 def generate_ai_workout(goal, experience):
