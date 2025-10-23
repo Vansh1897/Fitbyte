@@ -29,7 +29,7 @@ def estimate_nutrition(image: Image.Image) -> str:
         return "Error: GEMINI_API_KEY not found in environment. Please set it in .env file."
     
     try:
-        model = genai.GenerativeModel("gemini-pro-vision")
+        model = genai.GenerativeModel("models/gemini-2.0-flash")
         
         prompt = """Analyze this food image and provide:
         1. Food item name

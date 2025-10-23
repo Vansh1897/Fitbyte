@@ -18,7 +18,7 @@ def generate_ai_workout(goal, experience):
     - Do not show any warnings or any other text rather than the table.
     """
     try:
-        model = genai.GenerativeModel("gemini-pro")
+        model = genai.GenerativeModel("models/gemini-2.0-flash")
         response = model.generate_content(prompt)
         return response.text
     except Exception as e:

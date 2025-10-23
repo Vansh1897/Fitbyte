@@ -52,11 +52,11 @@ def generate_diet_plan(weight, height_cm, goal, diet_type, activity_level, prote
     """
 
     try:
-        model = genai.GenerativeModel("gemini-pro")
+        model = genai.GenerativeModel("models/gemini-2.0-flash")
         response = model.generate_content(prompt)
         return response.text
     except Exception as e:
-        return f"Error generating diet plan: {str(e)}"
+        return f"Error generating meal plan: {str(e)}"
 
 def nutrition_planner():
     st.header("📊 AI Nutrition Planner")
