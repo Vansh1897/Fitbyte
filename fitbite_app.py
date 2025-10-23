@@ -3,6 +3,16 @@ from meal_calorie_estimator import meal_calorie_estimator
 from exercise_tracker import exercise_tracker
 from nutrition_planner import nutrition_planner
 
+import streamlit as st
+import os
+
+# Fetch API key securely
+GOOGLE_API_KEY = st.secrets["GOOGLE_API_KEY"]
+
+# Optional: also make it accessible to APIs expecting an environment var
+os.environ["GOOGLE_API_KEY"] = GOOGLE_API_KEY
+
+
 # Set the Streamlit page config
 st.set_page_config(page_title="FitBite", layout="centered")
 st.title("🥗 FitBite - Your Fitness Buddy")
