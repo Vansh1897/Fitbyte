@@ -38,35 +38,6 @@ GEMINI_API_KEY=your_api_key_here
 streamlit run fitbite_app.py
 ```
 
-## Streamlit Cloud Deployment
-
-### Step 1: Push to GitHub
-Make sure all your changes are committed and pushed to GitHub.
-
-### Step 2: Deploy on Streamlit Cloud
-
-1. Go to [share.streamlit.io](https://share.streamlit.io)
-2. Sign in with your GitHub account
-3. Click "New app"
-4. Select:
-   - **Repository**: `Vansh1897/Fitbyte`
-   - **Branch**: `main`
-   - **Main file path**: `fitbite_app.py`
-5. Click "Advanced settings"
-6. Add your secrets in the "Secrets" section:
-   ```toml
-   GEMINI_API_KEY = "your_api_key_here"
-   ```
-7. Click "Deploy"
-
-### Step 3: Wait for Deployment
-Streamlit will automatically install dependencies and deploy your app. This usually takes 2-3 minutes.
-
-## Environment Variables
-
-The app requires the following environment variable:
-- `GEMINI_API_KEY`: Your Google Gemini API key
-
 ## Getting a Gemini API Key
 
 1. Visit [Google AI Studio](https://makersuite.google.com/app/apikey)
