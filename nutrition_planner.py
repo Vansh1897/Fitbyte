@@ -48,7 +48,7 @@ def generate_diet_plan(weight, height_cm, goal, diet_type, activity_level, prote
     - Total macros at bottom
     - Present as table, no notes.
     - dont show any warning or another texts rather than the table 
-    
+    - Five the same code everytime by storing the previous results in memory.
     """
 
     try:
@@ -81,3 +81,4 @@ def nutrition_planner():
         st.write(f"- Fats: {fats}g")
         st.markdown("---")
         st.markdown(plan)
+
