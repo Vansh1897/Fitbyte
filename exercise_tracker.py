@@ -16,6 +16,7 @@ def generate_ai_workout(goal, experience):
     - Do not give extra notes or alternatives.
     - Display it in a tabular format.
     - Do not show any warnings or any other text rather than the table.
+    - Five the same code everytime by storing the previous results in memory.
     """
     try:
         model = genai.GenerativeModel("models/gemini-2.0-flash")
@@ -84,3 +85,4 @@ def exercise_tracker():
                 plan = generate_ai_workout(goal, experience)
             st.markdown("### 💡 Your AI-Generated Workout Plan")
             st.markdown(plan)
+
