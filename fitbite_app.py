@@ -3,6 +3,10 @@ from meal_calorie_estimator import meal_calorie_estimator
 from exercise_tracker import exercise_tracker
 from nutrition_planner import nutrition_planner
 
+import streamlit as st
+import os
+
+
 # Set the Streamlit page config
 st.set_page_config(page_title="FitBite", layout="centered")
 st.title("🥗 FitBite - Your Fitness Buddy")

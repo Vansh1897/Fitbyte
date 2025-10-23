@@ -17,9 +17,12 @@ def generate_ai_workout(goal, experience):
     - Display it in a tabular format.
     - Do not show any warnings or any other text rather than the table.
     """
-    model = genai.GenerativeModel("gemini-1.5-flash")
-    response = model.generate_content(prompt)
-    return response.text
+    try:
+        model = genai.GenerativeModel("gemini-pro")
+        response = model.generate_content(prompt)
+        return response.text
+    except Exception as e:
+        return f"Error generating workout: {str(e)}"
 
 # Main app function
 def exercise_tracker():
