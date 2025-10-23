@@ -1,8 +1,9 @@
 import streamlit as st
 import google.generativeai as genai
+from config import configure_genai
 
-# Configure API
-genai.configure(api_key=YourAPIKey)
+# Configure Gemini API from environment
+configure_genai()
 
 def convert_height_to_cm(feet):
     return round(feet * 30.48)

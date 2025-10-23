@@ -1,9 +1,10 @@
 import streamlit as st
 from PIL import Image
 import google.generativeai as genai
+from config import configure_genai
 
-# Configure Gemini API
-genai.configure(api_key=YourAPiKey)
+# Configure Gemini API from environment
+configure_genai()
 
 def estimate_nutrition_gemini(image):
     try:
